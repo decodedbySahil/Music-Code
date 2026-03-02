@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cinematic Full Screen</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  font-family:'Cormorant Garamond', serif;
+  background:linear-gradient(-45deg,#2b0000,#400000,#1a0000,#330000);
+  background-size:400% 400%;
+  animation:gradientMove 15s ease infinite;
+}
+
+/* Smooth background animation */
+@keyframes gradientMove{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* Main text */
+#text{
+  color:white;
+  font-size:48px;
+  text-align:center;
+  padding:20px 40px;
+  text-shadow:0 0 15px rgba(255,255,255,0.6);
+  animation:fadeIn 1.5s ease forwards;
+}
+
+/* Fade animation */
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* Floating red hearts */
+.heart{
+  position:absolute;
+  color:rgba(255,0,0,0.7);
+  font-size:20px;
+  text-shadow:0 0 10px red;
+  animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+  0%{transform:translateY(0); opacity:0;}
+  50%{opacity:1;}
+  100%{transform:translateY(-900px); opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="text"></div>
+
+<script>
+
+/*
+["Line Text", displayDuration(ms)]
+*/
+
+const lyrics = [
+["Kaisi Hai Lagdi Kamaal", 2000],
+["Teri Ankhiyan Gulaab", 2000],
+["Ke Na Jaave Sadda Pyar", 1800],
+["Tainu Chhadd Ke", 2200],
+["Ho Jaave Tera Hi Deedar", 2000],
+["Te Koyi Na Sambhal Vi", 1800],
+["Paave Sadda Pyar", 2000],
+["Tu Chhadd Ke", 2200],
+["Teri Raza Teri Zameen", 2000],
+["Tere Iraade Ho Na", 2000],
+["Teri Kami Hove Kabhi", 2200],
+["Mere Kareeb Reh", 2500],
+["Teri Raza Teri Zameen", 2000],
+["Tere Iraade Ho Na", 2000],
+["Teri Kami Hove Kabhi", 2200],
+["Mere Kareeb Reh", 3000]
+];
+
+const textDiv = document.getElementById("text");
+
+async function showLyrics(){
+  for(let [line, duration] of lyrics){
+
+    textDiv.style.opacity = 0;
+    await new Promise(r => setTimeout(r, 500));
+
+    textDiv.innerHTML = line;
+    textDiv.style.animation = "none";
+    void textDiv.offsetWidth;
+    textDiv.style.animation = "fadeIn 1.5s ease forwards";
+
+    await new Promise(r => setTimeout(r, duration));
+  }
+}
+
+/* Floating Hearts */
+function createHearts(){
+  const heart=document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML="❤";
+  heart.style.left=Math.random()*100+"%";
+  heart.style.animationDuration=(4+Math.random()*4)+"s";
+  heart.style.fontSize=(15+Math.random()*25)+"px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),8000);
+}
+
+setInterval(createHearts,700);
+
+showLyrics();
+
+</script>
+
+</body>
+</html>
