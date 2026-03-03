@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Premium Holi</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  height:100vh;
+  overflow:hidden;
+  font-family:'Poppins', sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(45deg,#4eff66,#fc913a,#f923e4,#e55d87,#8e44ad);
+  background-size:400% 400%;
+  animation:bgMove 12s ease infinite;
+}
+
+/* Mini Glass Box for Side Text */
+.side-text{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  padding:20px 25px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(15px);
+  color:white;
+  font-size:26px;
+  font-weight:700;
+  box-shadow:0 0 20px rgba(0,0,0,0.3);
+  animation:highlightGlow 3s ease-in-out infinite alternate;
+  white-space:nowrap;
+}
+
+.left{ left:40px; }
+.right{ right:40px; }
+
+/* Highlight Animation */
+@keyframes highlightGlow{
+  from{ box-shadow:0 0 15px rgba(255,255,255,0.3); }
+  to{ box-shadow:0 0 35px rgba(255,255,255,0.7); }
+}
+
+/* Glass Center Box */
+.box{
+  width:650px;
+  max-width:90%;
+  padding:50px;
+  border-radius:25px;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(25px);
+  text-align:center;
+  color:white;
+  box-shadow:0 0 40px rgba(0,0,0,0.3);
+  z-index:2;
+}
+
+h1{
+  font-size:48px;
+  margin-bottom:25px;
+}
+
+#lyrics{
+  font-size:22px;
+  min-height:80px;
+  line-height:1.6;
+}
+
+/* Glow Effect for Lyrics */
+.glow{
+  animation:glowEffect 1.5s ease;
+}
+
+@keyframes glowEffect{
+  0%{text-shadow:0 0 10px white;}
+  50%{text-shadow:0 0 25px #ff0080;}
+  100%{text-shadow:0 0 10px white;}
+}
+
+/* Floating Hearts */
+.heart{
+  position:absolute;
+  color:rgba(255,0,0,0.8);
+  font-size:20px;
+  animation:floatUp linear infinite;
+  text-shadow:0 0 10px red;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-20vh);}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Side Glass Text -->
+<div class="side-text left">रंगों का त्योहार</div>
+<div class="side-text right">खुशियों की बहार</div>
+
+<div class="box">
+  <h1> 👩‍🎤🌈Happy होली🎉💖</h1>
+  <div id="lyrics"></div>
+</div>
+
+<script>
+
+/*
+["Line Text", typingSpeed(ms), delayAfterLine(ms)]
+*/
+
+const lines = [
+["Balam Pichkari jo tune mujhe maari", 60, 1200],
+["Toh Seedhi Saadi Chhori, Sharaabi Ho Gayi", 70, 1500],
+["Haa Jeans Pahen Ke, Jo Tune Maara Thumka", 65, 1200],
+["Toh Lattoo Padosan Ki Bhabhi Ho Gayi", 80, 2000]
+];
+
+const lyricsDiv = document.getElementById("lyrics");
+
+/* Typing Effect */
+async function typeLines(){
+  for(let [text,speed,delay] of lines){
+
+    lyricsDiv.innerHTML="";
+    lyricsDiv.classList.remove("glow");
+
+    for(let char of text){
+      lyricsDiv.innerHTML+=char;
+      await new Promise(r=>setTimeout(r,speed));
+    }
+
+    lyricsDiv.classList.add("glow");
+
+    await new Promise(r=>setTimeout(r,delay));
+  }
+}
+
+typeLines();
+
+/* Floating Hearts Instead of Particles */
+function createHeart(){
+  const heart=document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML="❤";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.animationDuration=(4+Math.random()*4)+"s";
+  heart.style.fontSize=(15+Math.random()*25)+"px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),8000);
+}
+
+setInterval(createHeart,600);
+
+</script>
+
+</body>
+</html>
